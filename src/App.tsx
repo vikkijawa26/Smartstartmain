@@ -37,12 +37,14 @@ const supabase = (supabaseUrl && supabaseAnonKey)
   ? createClient(supabaseUrl, supabaseAnonKey)
   : null;
 
+const asset = (path: string) => `${import.meta.env.BASE_URL}${path.replace(/^\//, '')}`;
+
 const images = {
-  hero: '/images/WhatsApp_Image_2026-09-18_at_11.50.24_(2).jpeg',
-  learn: '/images/WhatsApp_Image_2026-09-18_at_11.50.22.jpeg',
-  play: '/images/WhatsApp_Image_2026-09-18_at_11.50.23.jpeg',
-  friends: '/images/WhatsApp_Image_2026-09-18_at_11.50.23_(2).jpeg',
-  slide: '/images/WhatsApp_Image_2026-09-18_at_11.50.24_(1).jpeg',
+  hero: asset('images/WhatsApp_Image_2026-09-18_at_11.50.24_(2).jpeg'),
+  learn: asset('images/WhatsApp_Image_2026-09-18_at_11.50.22.jpeg'),
+  play: asset('images/WhatsApp_Image_2026-09-18_at_11.50.23.jpeg'),
+  friends: asset('images/WhatsApp_Image_2026-09-18_at_11.50.23_(2).jpeg'),
+  slide: asset('images/WhatsApp_Image_2026-09-18_at_11.50.24_(1).jpeg'),
 };
 
 const heroSlides = [
@@ -79,7 +81,7 @@ const facilities = [
     tag: 'Digital Learning',
     description:
       'Our Computer Lab is designed to provide a modern, spacious, and comfortable learning environment. It is equipped with the latest hardware and software to support a wide range of academic and practical computing needs.',
-    image: '/images/facilities/computer-lab.png',
+    image: asset('images/facilities/computer-lab.png'),
     icon: Monitor,
     color: 'blue',
   },
@@ -88,7 +90,7 @@ const facilities = [
     tag: 'Creative Play',
     description:
       'A vibrant world of learning Where curiosity meets creativity, Encouraging holistic Growth through interactive Experiences and Joyful learning moments.',
-    image: '/images/facilities/kindergarten-classroom.png',
+    image: asset('images/facilities/kindergarten-classroom.png'),
     icon: Sparkles,
     color: 'yellow',
   },
@@ -97,7 +99,7 @@ const facilities = [
     tag: 'Early Steps',
     description:
       'A nurturing and cheerful learning environment where young learners take their first step into education through play-based activities, joyful exploration, and guided discovery.',
-    image: '/images/facilities/lkg-classroom.png',
+    image: asset('images/facilities/lkg-classroom.png'),
     icon: BookOpen,
     color: 'red',
   },
@@ -106,7 +108,7 @@ const facilities = [
     tag: 'Primary Transition',
     description:
       'A dynamic and engaging space that strengthens foundational skills, fosters confidence, and prepares children for a smooth transition to primary education.',
-    image: '/images/facilities/ukg-classroom.png',
+    image: asset('images/facilities/ukg-classroom.png'),
     icon: Star,
     color: 'green',
   },
@@ -115,7 +117,7 @@ const facilities = [
     tag: 'Safe & Homelike',
     description:
       'Caring and secure space that provides comfort, supervision, and enriching activities, ensuring children feel safe, happy, and at home throughout the day.',
-    image: '/images/facilities/day-care.png',
+    image: asset('images/facilities/day-care.png'),
     icon: HeartHandshake,
     color: 'yellow',
   },
@@ -124,7 +126,7 @@ const facilities = [
     tag: 'Nutrition & Etiquette',
     description:
       'Clean, safe, and welcoming space where children enjoy nutritious meals together, learning healthy eating habits, table manners, and the joy of sharing in a comfortable environment.',
-    image: '/images/facilities/dining-area.png',
+    image: asset('images/facilities/dining-area.png'),
     icon: UtensilsCrossed,
     color: 'red',
   },
@@ -133,7 +135,7 @@ const facilities = [
     tag: 'Active Outdoors',
     description:
       'Our play area is a safe and joyful space designed for fun and learning through play. Equipped with swing, seesaw, and slide. It helps children to develop physical strength, balance, coordination, and social skills while enjoying active play.',
-    image: '/images/facilities/play-area.png',
+    image: asset('images/facilities/play-area.png'),
     icon: Smile,
     color: 'blue',
   },
@@ -151,7 +153,7 @@ function Logo() {
   return (
     <a href="#top" className="brand" aria-label="Smart Start Play School home">
 
-      <img src="./images/smartstartLogo.png" alt="Smart Start Play School" className="brand-logo" />
+      <img src={asset('images/smartstartLogo.png')} alt="Smart Start Play School" className="brand-logo" />
     </a>
   );
 }
