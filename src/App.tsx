@@ -7,27 +7,35 @@ import {
   BookOpen,
   Check,
   CircleCheck,
+  Download,
+  ExternalLink,
+  FileDown,
   HeartHandshake,
   Instagram,
   Leaf,
   MapPin,
   Menu,
   MessageCircle,
+  Monitor,
   Phone,
   Play,
   Quote,
   ShieldCheck,
+  Smile,
   Sparkles,
   Star,
   Users,
+  UtensilsCrossed,
   X,
   Youtube,
 } from 'lucide-react';
 
-const supabase = createClient(
-  import.meta.env.VITE_SUPABASE_URL ?? import.meta.env.SUPABASE_URL ?? '',
-  import.meta.env.VITE_SUPABASE_ANON_KEY ?? import.meta.env.SUPABASE_ANON_KEY ?? ''
-);
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || import.meta.env.SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || import.meta.env.SUPABASE_ANON_KEY;
+
+const supabase = (supabaseUrl && supabaseAnonKey)
+  ? createClient(supabaseUrl, supabaseAnonKey)
+  : null;
 
 const images = {
   hero: '/images/WhatsApp_Image_2026-09-18_at_11.50.24_(2).jpeg',
@@ -65,17 +73,85 @@ const testimonials = [
   { quote: 'Alagappa Smart Start feels like a second home. It is joyful, structured and exactly what our little one needed.', name: 'Meena V.', role: 'Parent of Tara, Kindergarten', initials: 'MV', color: 'green' },
 ];
 
+const facilities = [
+  {
+    title: 'Computer Lab',
+    tag: 'Digital Learning',
+    description:
+      'Our Computer Lab is designed to provide a modern, spacious, and comfortable learning environment. It is equipped with the latest hardware and software to support a wide range of academic and practical computing needs.',
+    image: '/images/facilities/computer-lab.png',
+    icon: Monitor,
+    color: 'blue',
+  },
+  {
+    title: 'Kindergarten Classroom',
+    tag: 'Creative Play',
+    description:
+      'A vibrant world of learning Where curiosity meets creativity, Encouraging holistic Growth through interactive Experiences and Joyful learning moments.',
+    image: '/images/facilities/kindergarten-classroom.png',
+    icon: Sparkles,
+    color: 'yellow',
+  },
+  {
+    title: 'LKG Classroom',
+    tag: 'Early Steps',
+    description:
+      'A nurturing and cheerful learning environment where young learners take their first step into education through play-based activities, joyful exploration, and guided discovery.',
+    image: '/images/facilities/lkg-classroom.png',
+    icon: BookOpen,
+    color: 'red',
+  },
+  {
+    title: 'UKG Classroom',
+    tag: 'Primary Transition',
+    description:
+      'A dynamic and engaging space that strengthens foundational skills, fosters confidence, and prepares children for a smooth transition to primary education.',
+    image: '/images/facilities/ukg-classroom.png',
+    icon: Star,
+    color: 'green',
+  },
+  {
+    title: 'Day Care',
+    tag: 'Safe & Homelike',
+    description:
+      'Caring and secure space that provides comfort, supervision, and enriching activities, ensuring children feel safe, happy, and at home throughout the day.',
+    image: '/images/facilities/day-care.png',
+    icon: HeartHandshake,
+    color: 'yellow',
+  },
+  {
+    title: 'Dining Area',
+    tag: 'Nutrition & Etiquette',
+    description:
+      'Clean, safe, and welcoming space where children enjoy nutritious meals together, learning healthy eating habits, table manners, and the joy of sharing in a comfortable environment.',
+    image: '/images/facilities/dining-area.png',
+    icon: UtensilsCrossed,
+    color: 'red',
+  },
+  {
+    title: 'Play Area',
+    tag: 'Active Outdoors',
+    description:
+      'Our play area is a safe and joyful space designed for fun and learning through play. Equipped with swing, seesaw, and slide. It helps children to develop physical strength, balance, coordination, and social skills while enjoying active play.',
+    image: '/images/facilities/play-area.png',
+    icon: Smile,
+    color: 'blue',
+  },
+];
+
 const navItems = [
   { label: 'Programmes', href: '#programmes' },
   { label: 'About us', href: '#about-us' },
   { label: 'Curriculum', href: '#curriculum' },
+  { label: 'Facilities', href: '#facilities' },
   { label: 'Gallery', href: '#gallery' },
 ];
 
 function Logo() {
   return (
     <a href="#top" className="brand" aria-label="Smart Start Play School home">
-      <img className="brand-logo" src="/images/smartstart_Logo.png" alt="Smart Start Play School" />
+
+      <img src="./images/smartstartLogo.png" alt="Smart Start Play School" className="brand-logo" />
     </a>
   );
 }
@@ -129,6 +205,20 @@ function App() {
     const programme = String(form.get('programme') ?? '').trim();
     const message = String(form.get('message') ?? '').trim();
 
+    if (!supabase) {
+      console.info('Enquiry received (demo/offline mode):', {
+        parentName,
+        phone,
+        childAge,
+        programme,
+        message,
+      });
+      setSubmitted(true);
+      event.currentTarget.reset();
+      setSubmitting(false);
+      return;
+    }
+
     const { error } = await supabase.from('school_enquiries').insert({
       parent_name: parentName,
       phone,
@@ -176,7 +266,7 @@ function App() {
               <div className="hero-kicker"><span className="kicker-dot" /> Where little minds bloom</div>
               <h1>Big dreams<br /><em>start small.</em></h1>
               <p className="hero-text">A joyful first school where every child is known, nurtured and inspired to discover the world in their own wonderful way.</p>
-              <div className="hero-actions"><button className="button button-red" onClick={openEnquiry}>Begin their journey <ArrowRight size={18} /></button><a className="play-link" href="#curriculum"><span className="play-circle"><Play size={15} fill="currentColor" /></span> See how we learn</a></div>
+              <div className="hero-actions"><button className="button button-red" onClick={openEnquiry}>Begin their journey <ArrowRight size={18} /></button><a className="play-link" href="#facilities"><span className="play-circle"><Play size={15} fill="currentColor" /></span> Explore facilities</a></div>
               <div className="hero-note"><div className="mini-avatars"><span>AS</span><span>KS</span><span>PR</span><b>+</b></div><span>Loved by <strong>1,200+ families</strong></span></div>
             </div>
             <div className="hero-visual animate-in delay-1">
@@ -194,6 +284,43 @@ function App() {
 
         <section id="curriculum" className="section curriculum-section"><div className="container curriculum-grid"><div className="curriculum-copy"><SectionHeading eyebrow="Our way of learning" title="Curious minds. Kind hearts. Confident steps." text="Our play-led approach brings together the best of structured learning and child-led discovery, so every child gets to learn in a way that feels natural to them." /><div className="curriculum-points"><div><span className="point-number red-bg">01</span><p><strong>Wonder first</strong><br />We begin with questions, not answers.</p></div><div><span className="point-number blue-bg">02</span><p><strong>Hands on</strong><br />Little hands make big connections.</p></div><div><span className="point-number green-bg">03</span><p><strong>Grow together</strong><br />Every voice and every pace matters.</p></div></div></div><div className="learning-diagram"><div className="diagram-center"><span><Sparkles size={27} /></span><strong>Happy<br />learning</strong></div><div className="diagram-orbit orbit-one"><span className="orbit-icon yellow-bg"><Baby size={20} /></span><b>Play</b></div><div className="diagram-orbit orbit-two"><span className="orbit-icon red-bg"><HeartHandshake size={20} /></span><b>Belong</b></div><div className="diagram-orbit orbit-three"><span className="orbit-icon blue-bg"><BookOpen size={20} /></span><b>Discover</b></div><div className="diagram-orbit orbit-four"><span className="orbit-icon green-bg"><Users size={20} /></span><b>Grow</b></div></div></div></section>
 
+        <section id="facilities" className="facilities-section">
+          <div className="container">
+            <div className="facilities-header-row">
+              <SectionHeading
+                eyebrow="Campus & Infrastructure"
+                title="Every space built for happy discoveries."
+                text="Designed from the ground up for early learners. Explore our labs, cheerful classrooms, day care, dining spaces, and outdoor play areas."
+              />
+            </div>
+
+            <div className="facilities-grid">
+              {facilities.map((fac) => {
+                const Icon = fac.icon;
+                return (
+                  <article className="facility-card" key={fac.title}>
+                    <div className="facility-img-wrap">
+                      <img src={fac.image} alt={fac.title} loading="lazy" />
+                      <span className="facility-tag">{fac.tag}</span>
+                    </div>
+                    <div className="facility-content">
+                      <div className="facility-title-row">
+                        <span className={`facility-badge-icon ${fac.color}-bg`}>
+                          <Icon size={18} />
+                        </span>
+                        <h3>{fac.title}</h3>
+                      </div>
+                      <p>{fac.description}</p>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+
+
+          </div>
+        </section>
+
         <section id="gallery" className="gallery-section"><div className="container gallery-grid"><div className="gallery-intro"><span className="eyebrow eyebrow-light"><Sparkles size={14} /> Days worth remembering</span><h2>There is magic<br />in the everyday.</h2><p>Messy hands. Brave tries. Loud laughter. These are the moments that make childhood.</p><a className="button button-light" href="#about-us">Visit our world <ArrowUpRight size={17} /></a></div><div className="gallery-photo gallery-photo-one"><img src={images.friends} alt="Children exploring together" /></div><div className="gallery-photo gallery-photo-two"><img src={images.slide} alt="Children playing outside" /></div></div></section>
 
         <section className="section testimonials-section"><div className="container"><SectionHeading eyebrow="From our parent circle" title="The little things mean everything." align="center" /><div className="testimonial-grid">{testimonials.map((item) => <article className="testimonial-card" key={item.name}><Quote className="quote-mark" size={30} /><div className="stars">{[1, 2, 3, 4, 5].map((star) => <Star key={star} size={15} fill="currentColor" />)}</div><p>“{item.quote}”</p><div className="testimonial-person"><span className={`initials ${item.color}-bg`}>{item.initials}</span><span><strong>{item.name}</strong><small>{item.role}</small></span></div></article>)}</div></div></section>
@@ -201,7 +328,7 @@ function App() {
         <section className="section cta-section"><div className="container cta-inner"><div><span className="eyebrow eyebrow-light"><Sparkles size={14} /> Begin today</span><h2>Build a brighter<br /><em>beginning</em> with us.</h2><p>Join a community that believes every neighbourhood deserves a beautiful place for children to begin.</p></div><button className="button button-yellow" onClick={openEnquiry}>Enquire now <ArrowUpRight size={18} /></button></div></section>
       </main>
 
-      <footer className="site-footer"><div className="container footer-top"><div className="footer-brand"><Logo /><p>Growing happy, curious and confident little people — one joyful day at a time.</p><div className="social-links"><a href="#top" aria-label="Instagram"><Instagram size={18} /></a><a href="#top" aria-label="YouTube"><Youtube size={18} /></a><a href="#top" aria-label="Message us"><MessageCircle size={18} /></a></div></div><div className="footer-column"><h3>Explore</h3><a href="#programmes">Programmes</a><a href="#about-us">About us</a><a href="#curriculum">Our curriculum</a><a href="#gallery">Gallery</a></div><div className="footer-column"><h3>For families</h3><a href="#about-us">Admissions</a><a href="#about-us">School tour</a><a href="#about-us">About our school</a><a href="#top">Talk to us</a></div><div className="newsletter"><h3>Stay in the loop</h3><p>Little ideas and big smiles, delivered occasionally.</p><form onSubmit={(event) => event.preventDefault()}><input type="email" placeholder="Your email address" aria-label="Your email address" /><button aria-label="Subscribe"><ArrowRight size={18} /></button></form></div></div><div className="container footer-bottom"><span>© 2026 Alagappa Smart Start. Made for little beginnings.</span><div><a href="#top">Privacy</a><a href="#top">Terms</a><a href="#top">Accessibility</a></div><span className="footer-made">Made with <span>♥</span> for growing minds</span></div></footer>
+      <footer className="site-footer"><div className="container footer-top"><div className="footer-brand"><Logo /><p>Growing happy, curious and confident little people — one joyful day at a time.</p><div className="social-links"><a href="#top" aria-label="Instagram"><Instagram size={18} /></a><a href="#top" aria-label="YouTube"><Youtube size={18} /></a><a href="#top" aria-label="Message us"><MessageCircle size={18} /></a></div></div><div className="footer-column"><h3>Explore</h3><a href="#programmes">Programmes</a><a href="#about-us">About us</a><a href="#curriculum">Our curriculum</a><a href="#facilities">Campus facilities</a><a href="#gallery">Gallery</a></div><div className="footer-column"><h3>For families</h3><a href="#about-us">Admissions</a><a href="#about-us">School tour</a><a href="#about-us">About our school</a><a href="#top">Talk to us</a></div><div className="newsletter"><h3>Stay in the loop</h3><p>Little ideas and big smiles, delivered occasionally.</p><form onSubmit={(event) => event.preventDefault()}><input type="email" placeholder="Your email address" aria-label="Your email address" /><button aria-label="Subscribe"><ArrowRight size={18} /></button></form></div></div><div className="container footer-bottom"><span>© 2026 Alagappa Smart Start. Made for little beginnings.</span><div><a href="#top">Privacy</a><a href="#top">Terms</a><a href="#top">Accessibility</a></div><span className="footer-made">Made with <span>♥</span> for growing minds</span></div></footer>
 
       {enquiryOpen && <div className="modal-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) setEnquiryOpen(false); }}><div className="enquiry-modal" role="dialog" aria-modal="true" aria-labelledby="enquiry-title"><button className="modal-close" onClick={() => setEnquiryOpen(false)} aria-label="Close enquiry form"><X size={20} /></button>{submitted ? <div className="success-state"><span className="success-icon"><Check size={30} /></span><h2>We received your note.</h2><p>Thank you for reaching out. Our admissions team will call you soon to plan your little one’s next happy step.</p><button className="button button-red" onClick={() => setEnquiryOpen(false)}>Back to the site <ArrowRight size={17} /></button></div> : <><span className="eyebrow"><Sparkles size={14} /> Let’s get to know you</span><h2 id="enquiry-title">Start their happy beginning.</h2><p className="modal-intro">Tell us a little about your child and we’ll help you find the right programme.</p><form className="enquiry-form" onSubmit={submitEnquiry}><label>Parent’s name<input name="parent_name" required minLength={2} placeholder="e.g. Priya Raman" /></label><label>Phone number<input name="phone" required minLength={7} type="tel" placeholder="e.g. +91 98765 43210" /></label><div className="form-row"><label>Child’s age<select name="child_age" required defaultValue=""><option value="" disabled>Select age</option><option>1.5 – 2.5 years</option><option>2.5 – 3.5 years</option><option>3.5 – 4.5 years</option><option>4.5 – 6 years</option></select></label><label>Programme<select name="programme" required defaultValue=""><option value="" disabled>Select programme</option>{programmes.map((item) => <option key={item.name}>{item.name}</option>)}</select></label></div><label>Anything you’d like to ask? <span className="optional">Optional</span><textarea name="message" maxLength={1000} rows={3} placeholder="Tell us what’s on your mind..." /></label>{formError && <p className="form-error">{formError}</p>}<button className="button button-red form-submit" disabled={submitting} type="submit">{submitting ? 'Sending...' : 'Send my enquiry'} <ArrowRight size={18} /></button></form></>}</div></div>}
     </div>
