@@ -7,9 +7,6 @@ import {
   BookOpen,
   Check,
   CircleCheck,
-  Download,
-  ExternalLink,
-  FileDown,
   HeartHandshake,
   Instagram,
   Leaf,
@@ -29,6 +26,7 @@ import {
   X,
   Youtube,
 } from 'lucide-react';
+import Gallery from './components/gallery';
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || import.meta.env.SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || import.meta.env.SUPABASE_ANON_KEY;
@@ -322,8 +320,9 @@ function App() {
 
           </div>
         </section>
+        <Gallery></Gallery>
 
-        <section id="gallery" className="gallery-section"><div className="container gallery-grid"><div className="gallery-intro"><span className="eyebrow eyebrow-light"><Sparkles size={14} /> Days worth remembering</span><h2>There is magic<br />in the everyday.</h2><p>Messy hands. Brave tries. Loud laughter. These are the moments that make childhood.</p><a className="button button-light" href="#about-us">Visit our world <ArrowUpRight size={17} /></a></div><div className="gallery-photo gallery-photo-one"><img src={images.friends} alt="Children exploring together" /></div><div className="gallery-photo gallery-photo-two"><img src={images.slide} alt="Children playing outside" /></div></div></section>
+        {/* <section id="gallery" className="gallery-section"><div className="container gallery-grid"><div className="gallery-intro"><span className="eyebrow eyebrow-light"><Sparkles size={14} /> Days worth remembering</span><h2>There is magic<br />in the everyday.</h2><p>Messy hands. Brave tries. Loud laughter. These are the moments that make childhood.</p><a className="button button-light" href="#about-us">Visit our world <ArrowUpRight size={17} /></a></div><div className="gallery-photo gallery-photo-one"><img src={images.friends} alt="Children exploring together" /></div><div className="gallery-photo gallery-photo-two"><img src={images.slide} alt="Children playing outside" /></div></div></section> */}
 
         <section className="section testimonials-section"><div className="container"><SectionHeading eyebrow="From our parent circle" title="The little things mean everything." align="center" /><div className="testimonial-grid">{testimonials.map((item) => <article className="testimonial-card" key={item.name}><Quote className="quote-mark" size={30} /><div className="stars">{[1, 2, 3, 4, 5].map((star) => <Star key={star} size={15} fill="currentColor" />)}</div><p>“{item.quote}”</p><div className="testimonial-person"><span className={`initials ${item.color}-bg`}>{item.initials}</span><span><strong>{item.name}</strong><small>{item.role}</small></span></div></article>)}</div></div></section>
 
