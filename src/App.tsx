@@ -268,7 +268,7 @@ function App() {
               <div className="hero-kicker"><span className="kicker-dot" /> Where little minds bloom</div>
               <h1>Big dreams<br /><em>start small.</em></h1>
               <p className="hero-text">A joyful first school where every child is known, nurtured and inspired to discover the world in their own wonderful way.</p>
-              <div className="hero-actions"><button className="button button-red" onClick={openEnquiry}>Begin their journey <ArrowRight size={18} /></button><a className="play-link" href="#facilities"><span className="play-circle"><Play size={15} fill="currentColor" /></span> Explore facilities</a></div>
+              <div className="hero-actions">{/*<button className="button button-red" onClick={openEnquiry}>Begin their journey <ArrowRight size={18} /></button>*/}<a className="button button-red" href="https://docs.google.com/forms/d/e/1FAIpQLSfnYF0QQDe8LOVrRhdhQv-TryBRd0f7VKPIeC8-EC1f7hFd5w/viewform?usp=publish-editor" target="_blank" rel="noopener noreferrer">Begin their journey <ArrowRight size={18} /></a><a className="play-link" href="#facilities"><span className="play-circle"><Play size={15} fill="currentColor" /></span> Explore facilities</a></div>
               <div className="hero-note"><div className="mini-avatars"><span>AS</span><span>KS</span><span>PR</span><b>+</b></div><span>Loved by <strong>1,200+ families</strong></span></div>
             </div>
             <div className="hero-visual animate-in delay-1">
